@@ -32,12 +32,39 @@ function Register() {
       toast.success("User Registered Successfully!!", {
         position: "top-center",
       });
-      // window.location.href = "/login";
+      window.location.href = "/login";
     } catch (error) {
       console.log(error.message);
-      toast.error(error.message, {
-        position: "bottom-center",
-      });
+
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          toast.error("This email is already in use.", {
+            position: "bottom-center",
+          });
+          break;
+        case "auth/invalid-email":
+          toast.error("Invalid email address format.", {
+            position: "bottom-center",
+          });
+          break;
+        case "auth/weak-password":
+          toast.error("Password should be at least 6 characters long.", {
+            position: "bottom-center",
+          });
+          break;
+        case "auth/network-request-failed":
+          toast.error("Network error, please check your internet connection.", {
+            position: "bottom-center",
+          });
+          break;
+        default:
+          toast.error("Registration failed. Please try again.", {
+            position: "bottom-center",
+          });
+      }
+      // toast.error(error.message, {
+      //   position: "bottom-center",
+      // });
     }
   };
 
